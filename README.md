@@ -10,14 +10,14 @@ Graphsense consists of several services. Although each one is required for the p
 
 Service list:
  - `parser`, part of graphsense-blocksci project - reads bitcoin client's block files to a more useful format on disk.
- - `exporter`, part of blocksci project - reads data produced by parser and inserts that into the cassandra database
+ - `exporter`, part of graphsense-blocksci project - reads data produced by parser and inserts that into the cassandra database
  - `cassandra` - the primary and only database. Stores raw (produced by exporter) and transformed (produced by transformation) data in corresponding Cassandra keyspaces.
  - `transformation` - a spark job that reads raw data from cassandra, computes infromation useful for the end-user and stores result in the 'transformed' keyspace.
  - *...others, not yet covered by this project*
 
 
 ## Setup
-Each service has its own `docker-compose.yml` config and can be built and run individually. Most of the times however, one would want to quickly set up a set of above services and be sure that they are going to work well together.
+Each service has its own `docker-compose.yml` config and can be built and run individually (please consult README files!). Most of the times however, one would want to quickly set up a set of above services and be sure that they are going to work well together.
 For that, follow these steps:
 
  - Modify the `docker-compose.yml` file also supplied in this repo to only keep services that you want to include in this setup. Alternatively, keep all services.
