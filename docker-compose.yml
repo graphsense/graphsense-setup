@@ -1,0 +1,21 @@
+version: '2'
+services:
+  cassandra:
+    extends: 
+      file: ../cassandra/dc.yml
+      service: cassandra
+  parser:
+    extends:
+      file: ../graphsense-blocksci/dc.yml
+      service: parser
+  exporter:
+    extends:
+      file: ../graphsense-blocksci/dc.yml
+      service: exporter
+  transformation:
+    extends:
+      file: ../graphsense-transformation/dc.yml
+      service: transformation
+networks:
+  graphsense-global-net:
+    external: true
