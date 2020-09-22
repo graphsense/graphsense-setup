@@ -4,18 +4,31 @@ services:
     extends: 
       file: ../cassandra/dc.yml
       service: cassandra
+    env_file: .env
+
   parser:
     extends:
       file: ../graphsense-blocksci/dc.yml
       service: parser
+    env_file: .env
+
   exporter:
     extends:
       file: ../graphsense-blocksci/dc.yml
       service: exporter
+    env_file: .env
+    depends_on: 
+    - cassandra
+
   transformation:
     extends:
       file: ../graphsense-transformation/dc.yml
-      service: transformation
+      service: transform
+    env_file: 
+     - .env
+    depends_on: 
+     - cassandra
+
 networks:
   graphsense-global-net:
     external: true
