@@ -24,11 +24,16 @@ services:
     extends:
       file: ../graphsense-transformation/docker-compose.yml
       service: transform
-    env_file: 
-     - .env
+    env_file: .env
     depends_on: 
      - cassandra
-
+  graphsense-rest:
+    extends:
+      file: ../graphsense-REST/docker-compose.yml
+      service: graphsense-rest
+    env_file: .env
+    depends_on: 
+     - cassandra
 networks:
   graphsense-global-net:
     external: true

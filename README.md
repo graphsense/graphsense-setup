@@ -13,6 +13,7 @@ Service list:
  - `exporter`, part of graphsense-blocksci project - reads data produced by parser and inserts that into the cassandra database
  - `cassandra` - the primary and only database. Stores raw (produced by exporter) and transformed (produced by transformation) data in corresponding Cassandra keyspaces.
  - `transformation` - a spark job that reads raw data from cassandra, computes infromation useful for the end-user and stores result in the 'transformed' keyspace.
+ - `graphsense-rest` - a flash REST service that exposes data stored in cassandra to the outside world. 
  - *...others, not yet covered by this project*
 
 
@@ -24,6 +25,10 @@ For that, follow these steps:
  - `cp env.example .env`
  - Fill in all parameters in `.env` file. Parameters related to services removed from `docker-compose.yml` can be omitted. **Make sure all parameters have a value set!**
  
+
+*If you choose to run graphsense-rest from this composition too, a flask secret key needs to be generated:* `./rest/gen_secret_key.sh`.
+
+
 
 **Make sure the parent directory of this project has all the required graphsense services git-cloned in their correct directories, or docker-compose's extend won't find those.**
 All `docker-compose` commands should be run from this directory!
@@ -52,3 +57,12 @@ Once parser is done, exporter can start its duty. You may want to adjust `FROM_B
 Once exporter is finished, transformation can start:
 
 `docker-compose up -d transformation`
+
+
+Before the `transformation` pipeline has completed, cassandra will only have some basic (i.e. not very useful) data.
+In any case, the REST service already can run:
+
+`docker-compose up -d graphsense-rest`
+
+The REST service will be accessible at `0.0.0.0:REST_PORT`; `REST_PORT` is configured in the .env file.
+To create a user account for using Graphsense, run `./rest/add_user.sh <username> <password>`.
