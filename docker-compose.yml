@@ -34,6 +34,15 @@ services:
     env_file: .env
     depends_on: 
      - cassandra
+  graphsense-dashboard:
+    extends:
+      file: ../graphsense-dashboard/docker-compose.yml
+      service: graphsense-dashboard
+    env_file: .env
+    depends_on:
+     - cassandra
+     - graphsense-rest
+
 networks:
   graphsense-global-net:
     external: true

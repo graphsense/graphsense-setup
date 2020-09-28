@@ -13,8 +13,8 @@ Service list:
  - `exporter`, part of graphsense-blocksci project - reads data produced by parser and inserts that into the cassandra database
  - `cassandra` - the primary and only database. Stores raw (produced by exporter) and transformed (produced by transformation) data in corresponding Cassandra keyspaces.
  - `transformation` - a spark job that reads raw data from cassandra, computes infromation useful for the end-user and stores result in the 'transformed' keyspace.
- - `graphsense-rest` - a flash REST service that exposes data stored in cassandra to the outside world. 
- - *...others, not yet covered by this project*
+ - `graphsense-rest` - a flask REST service exposing data stored in cassandra to the outside world. 
+ - `graphsense-dashboard` - frontend dashboard exposing data stored in cassandra through the REST service.
 
 
 ## Setup
@@ -26,7 +26,9 @@ For that, follow these steps:
  - Fill in all parameters in `.env` file. Parameters related to services removed from `docker-compose.yml` can be omitted. **Make sure all parameters have a value set!**
  
 
-*If you choose to run graphsense-rest from this composition too, a flask secret key needs to be generated:* `./rest/gen_secret_key.sh`.
+*If you choose to run graphsense-rest from this composition too, two more steps are required:*
+ - Flask secret key needs to be generated: `./rest/gen_secret_key.sh`;
+ - User DB needs to be initialized: `./rest/init_db.sh`.
 
 
 
@@ -60,9 +62,15 @@ Once exporter is finished, transformation can start:
 
 
 Before the `transformation` pipeline has completed, cassandra will only have some basic (i.e. not very useful) data.
-In any case, the REST service already can run:
+In any case, the REST service and the dashboard already can run:
 
-`docker-compose up -d graphsense-rest`
+`docker-compose up -d graphsense-rest graphsense-dashboard`
 
-The REST service will be accessible at `0.0.0.0:REST_PORT`; `REST_PORT` is configured in the .env file.
-To create a user account for using Graphsense, run `./rest/add_user.sh <username> <password>`.
+The REST service will be accessible at `0.0.0.0:REST_PORT`; `REST_PORT` is configured through the .env file.
+The dashboard is going to be accessible at `0.0.0.0:DASHBOARD_PORT`; `DASHBOARD_PORT` is configured through the `.env` file.
+
+## Creating user accounts
+To create a user account for using Graphsense, run:
+```
+./rest/add_user.sh <username> <password>
+```
