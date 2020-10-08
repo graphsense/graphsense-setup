@@ -1,0 +1,16 @@
+[submodule "clients/zec-client"]
+	path = clients/zec-client
+	url = https://github.com/graphsense/zec-client
+	branch = develop
+[submodule "clients/ltc-client"]
+	path = clients/ltc-client
+	url = https://github.com/graphsense/ltc-client
+	branch = develop
+[submodule "clients/bch-client"]
+	path = clients/bch-client
+	url = https://github.com/graphsense/bch-client
+	branch = develop
+[submodule "clients/btc-client"]
+	path = clients/btc-client
+	url = https://github.com/graphsense/btc-client
+	branch = develop

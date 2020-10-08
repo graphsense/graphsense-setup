@@ -1,0 +1,63 @@
+version: "3.5"
+
+services:
+
+  bitcoin-client:
+    image: bitcoin
+    container_name: bitcoin
+    hostname: bitcoin
+    build:
+      context: btc-client
+    volumes:
+      - ./data/btc:/opt/graphsense/data
+    networks:
+      - graphsense-net
+    ports:
+      - 8332:8332
+    restart: always
+
+  bitcoin-cash-client:
+    image: bitcoin-cash
+    container_name: bitcoin-cash
+    hostname: bitcoin-cash
+    build:
+      context: bch-client
+    volumes:
+      - ./data/bch:/opt/graphsense/data
+    networks:
+      - graphsense-net
+    ports:
+      - 8432:8432
+    restart: always
+
+  litecoin-client:
+    image: litecoin
+    container_name: litecoin
+    hostname: litecoin
+    build:
+      context: ltc-client
+    volumes:
+      - ./data/ltc:/opt/graphsense/data
+    networks:
+      - graphsense-net
+    ports:
+      - 8532:8532
+    restart: always
+
+  zcash-client:
+    image: zcash
+    container_name: zcash
+    hostname: zcash
+    build:
+      context: zec-client
+    volumes:
+      - ./data/zec:/opt/graphsense/data
+    networks:
+      - graphsense-net
+    ports:
+      - 8632:8632
+    restart: always
+
+networks:
+  graphsense-net:
+    name: graphsense-global-net
