@@ -14,3 +14,7 @@
 	path = clients/btc-client
 	url = https://github.com/graphsense/btc-client
 	branch = develop
+[submodule "backend/graphsense-blocksci"]
+	path = backend/graphsense-blocksci
+	url = https://github.com/graphsense/graphsense-blocksci
+	branch = develop
