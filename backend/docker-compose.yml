@@ -1,0 +1,152 @@
+version: "3.1"
+
+services:
+
+  # BTC
+  parser-btc:
+    image: graphsense-blocksci
+    build:
+      context: graphsense-blocksci
+    volumes:
+      - "$BTC_BLOCKSCI_DATADIR:/var/data/blocksci_data/:rw"
+      - "$BTC_BLOCK_DATADIR:/var/data/block_data/:ro"
+      - "$BTC_BLOCKSCI_CONFIG:/opt/graphsense/blocksci.cfg"
+    command: ["blocksci_parser", "/opt/graphsense/blocksci.cfg", "update"]
+
+  ingest-btc:
+    image: graphsense-blocksci
+    build:
+      context: graphsense-blocksci
+    environment:
+      - CASSANDRA_HOST=${CASSANDRA_HOST}
+      - RAW_KEYSPACE=${BTC_RAW_KEYSPACE}
+    volumes:
+      - "$BTC_BLOCKSCI_DATADIR:/var/data/blocksci_data/:ro"
+      - "$BTC_BLOCKSCI_CONFIG:/opt/graphsense/blocksci.cfg"
+    entrypoint: ["/docker-entrypoint.sh"]
+    command: ["/usr/local/bin/ingest.sh"]
+
+  ingest-exchange-rates-btc:
+    image: graphsense-blocksci
+    build:
+      context: graphsense-blocksci
+    environment:
+      - CASSANDRA_HOST=${CASSANDRA_HOST}
+      - RAW_KEYSPACE=${BTC_RAW_KEYSPACE}
+    entrypoint: ["/docker-entrypoint.sh"]
+    command: ["python3", "/usr/local/bin/ingest_rates_coindesk.py",
+              "-d", "$CASSANDRA_HOST",
+              "-k", "$BTC_RAW_KEYSPACE"]
+
+  # BCH
+  parser-bch:
+    image: graphsense-blocksci
+    build:
+      context: graphsense-blocksci
+    volumes:
+      - "$BCH_BLOCKSCI_DATADIR:/var/data/blocksci_data/:rw"
+      - "$BCH_BLOCK_DATADIR:/var/data/block_data/:ro"
+      - "$BCH_BLOCKSCI_CONFIG:/opt/graphsense/blocksci.cfg"
+    command: ["blocksci_parser", "/opt/graphsense/blocksci.cfg", "update"]
+
+  ingest-bch:
+    image: graphsense-blocksci
+    build:
+      context: graphsense-blocksci
+    environment:
+      - CASSANDRA_HOST=${CASSANDRA_HOST}
+      - RAW_KEYSPACE=${BCH_RAW_KEYSPACE}
+      - PROCESSES=${PROCESSES}
+    volumes:
+      - "$BCH_BLOCKSCI_DATADIR:/var/data/blocksci_data/:ro"
+      - "$BCH_BLOCKSCI_CONFIG:/opt/graphsense/blocksci.cfg"
+    entrypoint: ["/docker-entrypoint.sh"]
+    command: ["/usr/local/bin/ingest.sh"]
+
+  ingest-exchange-rates-bch:
+    image: graphsense-blocksci
+    build:
+      context: graphsense-blocksci
+    environment:
+      - CASSANDRA_HOST=${CASSANDRA_HOST}
+      - RAW_KEYSPACE=${BCH_RAW_KEYSPACE}
+    entrypoint: ["/docker-entrypoint.sh"]
+    command: ["python3", "/usr/local/bin/ingest_rates_coinmarketcap.py",
+              "-c", "BCH",
+              "-d", "$CASSANDRA_HOST",
+              "-k", "$BCH_RAW_KEYSPACE"]
+
+  # LTC
+  parser-ltc:
+    image: graphsense-blocksci
+    build:
+      context: graphsense-blocksci
+    volumes:
+      - "$LTC_BLOCKSCI_DATADIR:/var/data/blocksci_data/:rw"
+      - "$LTC_BLOCK_DATADIR:/var/data/block_data/:ro"
+      - "$LTC_BLOCKSCI_CONFIG:/opt/graphsense/blocksci.cfg"
+    command: ["blocksci_parser", "/opt/graphsense/blocksci.cfg", "update"]
+
+  ingest-ltc:
+    image: graphsense-blocksci
+    build:
+      context: graphsense-blocksci
+    environment:
+      - CASSANDRA_HOST=${CASSANDRA_HOST}
+      - RAW_KEYSPACE=${LTC_RAW_KEYSPACE}
+    volumes:
+      - "$LTC_BLOCKSCI_DATADIR:/var/data/blocksci_data/:ro"
+      - "$LTC_BLOCKSCI_CONFIG:/opt/graphsense/blocksci.cfg"
+    entrypoint: ["/docker-entrypoint.sh"]
+    command: ["/usr/local/bin/ingest.sh"]
+
+  ingest-exchange-rates-ltc:
+    image: graphsense-blocksci
+    build:
+      context: graphsense-blocksci
+    environment:
+      - CASSANDRA_HOST=${CASSANDRA_HOST}
+      - RAW_KEYSPACE=${LTC_RAW_KEYSPACE}
+    entrypoint: ["/docker-entrypoint.sh"]
+    command: ["python3", "/usr/local/bin/ingest_rates_coinmarketcap.py",
+              "-c", "LTC",
+              "-d", "$CASSANDRA_HOST",
+              "-k", "$LTC_RAW_KEYSPACE"]
+
+  # ZEC
+  parser-zec:
+    image: graphsense-blocksci
+    build:
+      context: graphsense-blocksci
+    volumes:
+      - "$ZEC_BLOCKSCI_DATADIR:/var/data/blocksci_data/:rw"
+      - "$ZEC_BLOCKSCI_CONFIG:/opt/graphsense/blocksci.cfg"
+    command: ["blocksci_parser", "/opt/graphsense/blocksci.cfg", "update"]
+
+  ingest-zec:
+    image: graphsense-blocksci
+    build:
+      context: graphsense-blocksci
+    environment:
+      - CASSANDRA_HOST=${CASSANDRA_HOST}
+      - RAW_KEYSPACE=${ZEC_RAW_KEYSPACE}
+    volumes:
+      - "$ZEC_BLOCKSCI_DATADIR:/var/data/blocksci_data/:ro"
+      - "$ZEC_BLOCKSCI_CONFIG:/opt/graphsense/blocksci.cfg"
+    entrypoint: ["/docker-entrypoint.sh"]
+    command: ["/usr/local/bin/ingest.sh"]
+
+  ingest-exchange-rates-zec:
+    image: graphsense-blocksci
+    build:
+      context: graphsense-blocksci
+    entrypoint: ["/docker-entrypoint.sh"]
+    command: ["python3", "/usr/local/bin/ingest_rates_coinmarketcap.py",
+              "-c", "ZEC",
+              "-d", "$CASSANDRA_HOST",
+              "-k", "$ZEC_RAW_KEYSPACE"]
+
+networks:
+  default:
+    external:
+      name: graphsense-global-net
