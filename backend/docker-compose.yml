@@ -20,6 +20,7 @@ services:
     environment:
       - CASSANDRA_HOST=${CASSANDRA_HOST}
       - RAW_KEYSPACE=${BTC_RAW_KEYSPACE}
+      - PROCESSES=${PROCESSES}
     volumes:
       - "$BTC_BLOCKSCI_DATADIR:/var/data/blocksci_data/:ro"
       - "$BTC_BLOCKSCI_CONFIG:/opt/graphsense/blocksci.cfg"
@@ -94,6 +95,7 @@ services:
     environment:
       - CASSANDRA_HOST=${CASSANDRA_HOST}
       - RAW_KEYSPACE=${LTC_RAW_KEYSPACE}
+      - PROCESSES=${PROCESSES}
     volumes:
       - "$LTC_BLOCKSCI_DATADIR:/var/data/blocksci_data/:ro"
       - "$LTC_BLOCKSCI_CONFIG:/opt/graphsense/blocksci.cfg"
@@ -130,6 +132,7 @@ services:
     environment:
       - CASSANDRA_HOST=${CASSANDRA_HOST}
       - RAW_KEYSPACE=${ZEC_RAW_KEYSPACE}
+      - PROCESSES=${PROCESSES}
     volumes:
       - "$ZEC_BLOCKSCI_DATADIR:/var/data/blocksci_data/:ro"
       - "$ZEC_BLOCKSCI_CONFIG:/opt/graphsense/blocksci.cfg"
