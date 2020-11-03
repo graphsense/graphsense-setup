@@ -140,6 +140,9 @@ services:
     image: graphsense-blocksci
     build:
       context: graphsense-blocksci
+    environment:
+      - CASSANDRA_HOST=${CASSANDRA_HOST}
+      - RAW_KEYSPACE=${ZEC_RAW_KEYSPACE}
     entrypoint: ["/docker-entrypoint.sh"]
     command: ["python3", "/usr/local/bin/ingest_rates_coinmarketcap.py",
               "-c", "ZEC",
