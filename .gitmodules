@@ -18,6 +18,10 @@
 	path = backend/graphsense-blocksci
 	url = https://github.com/graphsense/graphsense-blocksci
 	branch = develop
+[submodule "backend/graphsense-transformation"]
+	path = backend/graphsense-transformation
+	url = https://github.com/graphsense/graphsense-transformation
+	branch = develop
 [submodule "frontend/graphsense-dashboard"]
 	path = frontend/graphsense-dashboard
 	url = https://github.com/graphsense/graphsense-dashboard
