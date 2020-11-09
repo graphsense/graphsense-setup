@@ -14,15 +14,15 @@
 	path = clients/btc-client
 	url = https://github.com/graphsense/btc-client
 	branch = develop
-[submodule "backend/graphsense-blocksci"]
+[submodule "ingest/graphsense-blocksci"]
 	path = ingest/graphsense-blocksci
 	url = https://github.com/graphsense/graphsense-blocksci
 	branch = develop
-[submodule "backend/graphsense-transformation"]
-	path = ingest/graphsense-transformation
+[submodule "transformation/graphsense-transformation"]
+	path = transformation/graphsense-transformation
 	url = https://github.com/graphsense/graphsense-transformation
 	branch = develop
-[submodule "frontend/graphsense-dashboard"]
+[submodule "dashboard/graphsense-dashboard"]
 	path = dashboard/graphsense-dashboard
 	url = https://github.com/graphsense/graphsense-dashboard
 	branch = develop
