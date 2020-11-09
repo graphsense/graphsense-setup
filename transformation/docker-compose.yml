@@ -1,0 +1,39 @@
+version: "3.1"
+
+services:
+
+  transformation:
+    build:
+      context: graphsense-transformation
+    ports:
+     - "$SPARK_UI_PORT"
+     - "$SPARK_DRIVER_PORT"
+     - "$SPARK_BLOCKMGR_PORT"
+    environment:
+     - SPARK_UI_PORT=${SPARK_UI_PORT}
+     - SPARK_DRIVER_PORT=${SPARK_DRIVER_PORT}
+     - SPARK_BLOCKMGR_PORT=${SPARK_BLOCKMGR_PORT}
+     - SPARK_DRIVER_IP=${SPARK_DRIVER_IP}
+     - SPARK_MASTER=${SPARK_MASTER}
+     - SPARK_CLUSTER_SUBNET=${SPARK_CLUSTER_SUBNET}
+     - SPARK_MACVLAN_DEV=${SPARK_MACVLAN_DEV}
+     - SPARK_EXECUTOR_MEMORY=${SPARK_EXECUTOR_MEMORY}
+     - CASSANDRA_HOST=${CASSANDRA_HOST}
+     - CURRENCY=${CURRENCY}
+     - RAW_KEYSPACE=${RAW_KEYSPACE}
+     - TAG_KEYSPACE=${TAG_KEYSPACE}
+     - TGT_KEYSPACE=${TGT_KEYSPACE}
+    entrypoint: ["/opt/graphsense/docker-entrypoint.sh"]
+    command: ["/opt/graphsense/submit-docker.sh"]
+    networks:
+      app_net:
+        ipv4_address: "$SPARK_DRIVER_IP"
+
+networks:
+  app_net:
+    driver: macvlan
+    driver_opts:
+      parent: "${SPARK_MACVLAN_DEV}"
+    ipam:
+      config:
+        - subnet: "${SPARK_CLUSTER_SUBNET}"
