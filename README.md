@@ -169,32 +169,26 @@ transformation pipeline ([graphsense-transformation][graphsense-transformation])
 
 The current docker setup requires an existing, external Spark standalone cluster
 (Spark version 2.7.7 with Scala 2.12).
-A static IP from subnet of the Spark cluster is assigned to the container
-using the Docker [macvlan bridge network][macvlan] (only supported on Linux).
-The macvlan network driver assigns a MAC address to the container's virtual
-network interface, making it appear to be a physical network interface directly
-connected to the physical network. See the corresponding environment variables
-in the `env.template` file.
-
-IF the Spark master node is also used as host system for the container, the
-container will not be able to connect to the host (and vice versa). This is
-a limitation of macvlan interfaces. A workaround for this problem is to create
-another macvlan interface on the host system, and use that to communicate with
-the container on the macvlan network:
-
-```
-# add macvlan network interface on host
-ip link add NETWORK_NAME link SPARK_MACVLAN_DEV type macvlan mode bridge
-# configure interface
-ip addr add UNUSED_ADDRESS/32 dev NETWORK_NAME
-ip link set macvlan_spark up
-ip route add SPARK_DRIVER_IP/32 dev NETWORK_NAME
-```
-(replace `NETWORK_NAME`, `UNUSED_ADDRESS` with appropriate values, and use the
-same values for `SPARK_MACVLAN_DEV` and `SPARK_DRIVER_IP` as in `.env`).
+The environment variable `SPARK_DRIVER_HOST` specifies the network address of
+the host machine where the container will be running. Spark cluster nodes should
+be able to resolve this address. This is necessary for communication between
+executors and the driver program. For detailed technical information see
+[SPARK-4563][https://issues.apache.org/jira/browse/SPARK-4563].
+The option `spark.driver.bindAddress` is set to `0.0.0.0` inside the container.
+It also allows a different address from the local one to be advertised to
+executors or external systems, which is necessary when running containers
+with bridged networking. For this to properly work, the different
+ports used by the driver need to be forwarded from the container's host
+(`SPARK_DRIVER_PORT`,`SPARK_UI_PORT`, `SPARK_BLOCKMGR_PORT`).
 
 After finishing the Spark configuration edit the arguments section in the
-`.env` file, and build and start the container.
+`.env` file, and build and run the container:
+
+```
+docker-compose build
+docker-compose run --service-ports transformation
+```
+
 
 ### Rest
 
@@ -209,13 +203,14 @@ docker-compose up -d
 ```
 
 The REST service will be accessible at `0.0.0.0:REST_PORT`. `REST_PORT` is
-configured through the .env file.
+configured through the `.env` file.
 
 TODO user management
 
+
 ### Dashboard
 
-Edit the `.env` file and build and start the service
+Edit the `.env` file and build and start the service:
 
 ```
 docker-compose build
@@ -234,4 +229,3 @@ The dashboard is going to be accessible at `0.0.0.0:DASHBOARD_PORT`.
 [coinmarketcap]: https://coinmarketcap.com
 [graphsense-tagpacks]: https://github.com/graphsense/graphsense-tagpacks
 [graphsense-transformation]: https://github.com/graphsense/graphsense-transformation
-[macvlan]: https://docs.docker.com/network/macvlan
