@@ -2,6 +2,7 @@
 
 Docker compose setup for GraphSense components.
 
+
 ## About
 
 The goal of this project is to allow an out-of-the-box yet customizable setup
@@ -22,18 +23,20 @@ List of components:
 Although each one is required for the platform to work, some of them must be run
 in a sequential order.
 
+
 ## Prerequisites
 
 - Git version control system
 - [Docker][docker], see e.g. https://docs.docker.com/engine/install/
 - Docker Compose: https://docs.docker.com/compose/install/
 - a machine with at least 60GB RAM to run the `graphsense-blocksci` component
-- standalone Spark Cluster (version 2.7.7/Scala 2.12)
+- standalone [Apache Spark][apache-spark] cluster (version 2.7.7/Scala 2.12)
 - [Apache Cassandra][apache-cassandra] cluster
 
 All containers run with UID 10000 (user `dockeruser`). Ensure that a user
-`dockeruser` with ID `10000` exists on your local system and that mapped local
-volumes are owned by this user.
+UID `10000` exists on your local system(s) and that mapped local volumes are
+owned by this user.
+
 
 ## Setup
 
@@ -43,8 +46,8 @@ one would want to quickly set up a set of services and be sure that they are
 going to work well together.
 
 For that, we provide a set of `docker-compose.yml` files in the corresponding
-subdirectories. The source code of all required GraphSense components are
-incorporated as Git submodules. To fetch the source code for all components use
+subdirectories. The source code of all required GraphSense components is
+included through Git submodules. To fetch the source code for all components use
 
 ```
 git clone git@github.com:graphsense/graphsense-setup.git
@@ -85,7 +88,9 @@ In the Docker Compose file, we define the following services:
 - `litecoin-client`
 - `zcash-client`
 
-To start all services in detached mode (i.e., to run the containers in the
+Before starting the containers, create all directories as defined in the `.env`
+file (must be writable by UID 10000). To start all services in detached mode
+(i.e., to run the containers in the
 background), execute
 
 ```
@@ -105,6 +110,7 @@ zcash          zcashd -conf=/opt/graphsen ...   Up      0.0.0.0:8632->8632/tcp
 ```
 
 To keep track of the client synchronization process, use
+
 ```
 # all clients
 docker-compose logs
@@ -137,8 +143,8 @@ for each cryptocurrency, which should run sequentially. E.g., for Bitcoin
 # blockchain parsing
 docker-compose run parser-btc
 # ingest parsed data into raw Cassandra keyspace
-# (by default up to last block of previous day, since exchange rates are not
-# available for current day)
+# (by default, up to the last block of previous day, since exchange rates
+# are not available for the current day)
 docker-compose run ingest-btc
 # ingest exchange rates to Cassandra
 docker-compose run ingest-exchange-rates-btc
@@ -159,7 +165,8 @@ to remove all containers and volumes.
 
 There is currently no Docker setup for the ingest of attribution tags.
 The ingest of TagPacks to the raw Cassandra keyspace needs to be
-performed manually, see [here][graphsense-tagpacks].
+performed manually, see [graphsense-tagpack-tool][graphsense-tagpack-tool]
+for further information.
 
 
 ### Transformation
@@ -167,15 +174,16 @@ performed manually, see [here][graphsense-tagpacks].
 The `transformation` directory contains a dockerized version of the Spark
 transformation pipeline ([graphsense-transformation][graphsense-transformation]).
 
-The current docker setup requires an existing, external Spark standalone cluster
-(Spark version 2.7.7 with Scala 2.12).
+The current Docker setup requires an existing, external Spark standalone cluster
+(Spark version 2.7.7 with Scala 2.12), which could also be deployed using Docker
+(as [Docker Swarm][https://docs.docker.com/get-started/swarm-deploy/]).
 The environment variable `SPARK_DRIVER_HOST` specifies the network address of
 the host machine where the container will be running. Spark cluster nodes should
 be able to resolve this address. This is necessary for communication between
 executors and the driver program. For detailed technical information see
 [SPARK-4563][https://issues.apache.org/jira/browse/SPARK-4563].
 The option `spark.driver.bindAddress` is set to `0.0.0.0` inside the container.
-It also allows a different address from the local one to be advertised to
+It allows a different address from the local one to be advertised to
 executors or external systems, which is necessary when running containers
 with bridged networking. For this to properly work, the different
 ports used by the driver need to be forwarded from the container's host
@@ -188,6 +196,9 @@ After finishing the Spark configuration edit the arguments section in the
 docker-compose build
 docker-compose run --service-ports transformation
 ```
+
+Note that the `--service-ports` option is required, to enable the port mapping
+to the host.
 
 
 ### Rest
@@ -221,11 +232,12 @@ The dashboard is going to be accessible at `0.0.0.0:DASHBOARD_PORT`.
 `DASHBOARD_PORT` is configured through the `.env` file.
 
 
+[apache-spark]: https://spark.apache.org/downloads.html
 [apache-cassandra]: http://cassandra.apache.org/download
 [graphsense-blocksci]: https://github.com/graphsense/graphsense-blocksci
 [docker]: https://www.docker.com
 [blocksci]: https://github.com/citp/BlockSci
 [coindesk]: https://www.coindesk.com/api
 [coinmarketcap]: https://coinmarketcap.com
-[graphsense-tagpacks]: https://github.com/graphsense/graphsense-tagpacks
+[graphsense-tagpack-tool]: https://github.com/graphsense/graphsense-tagpack-tool
 [graphsense-transformation]: https://github.com/graphsense/graphsense-transformation
