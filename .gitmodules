@@ -26,3 +26,7 @@
 	path = dashboard/graphsense-dashboard
 	url = https://github.com/graphsense/graphsense-dashboard
 	branch = develop
+[submodule "rest/graphsense-rest"]
+	path = rest/graphsense-rest
+	url = https://github.com/graphsense/graphsense-rest
+	branch = develop
