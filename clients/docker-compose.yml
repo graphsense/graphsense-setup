@@ -37,7 +37,7 @@ services:
     build:
       context: ltc-client
     volumes:
-      - ${BTC_BLOCK_DATADIR}:/opt/graphsense/data
+      - ${LTC_BLOCK_DATADIR}:/opt/graphsense/data
     networks:
       - graphsense-net
     ports:
@@ -51,7 +51,7 @@ services:
     build:
       context: zec-client
     volumes:
-      - ./data/zec:/opt/graphsense/data
+      - ${ZEC_BLOCK_DATADIR}:/opt/graphsense/data
     networks:
       - graphsense-net
     ports:
