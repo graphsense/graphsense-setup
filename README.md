@@ -205,8 +205,16 @@ to the host.
 
 The `rest` subdirectory contains the Docker Compose setup for the
 `graphsense-rest` component.
+Change to the `rest` directory and copy the template config file
 
-Edit the `.env` file and build and start the service
+```
+mkdir -p graphsense-rest/instance
+cp graphsense-rest/conf/config.yaml.template graphsense-rest/instance/config.yaml
+```
+
+and edit all required parameters.
+
+Furthermore, edit the `.env` file and build and start the service
 
 ```
 docker-compose build
@@ -216,8 +224,8 @@ docker-compose up -d
 The REST service will be accessible at `0.0.0.0:REST_PORT`. `REST_PORT` is
 configured through the `.env` file.
 
-TODO user management
-
+The view the generated API documentation, open `http://127.0.0.1:REST_PORT/ui`
+in a web browser.
 
 ### Dashboard
 
