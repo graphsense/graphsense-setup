@@ -176,12 +176,12 @@ transformation pipeline ([graphsense-transformation][graphsense-transformation])
 
 The current Docker setup requires an existing, external Spark standalone cluster
 (Spark version 2.7.7 with Scala 2.12), which could also be deployed using Docker
-(as [Docker Swarm][https://docs.docker.com/get-started/swarm-deploy/]).
+(as [Docker Swarm](https://docs.docker.com/get-started/swarm-deploy/)).
 The environment variable `SPARK_DRIVER_HOST` specifies the network address of
 the host machine where the container will be running. Spark cluster nodes should
 be able to resolve this address. This is necessary for communication between
 executors and the driver program. For detailed technical information see
-[SPARK-4563][https://issues.apache.org/jira/browse/SPARK-4563].
+[SPARK-4563](https://issues.apache.org/jira/browse/SPARK-4563).
 The option `spark.driver.bindAddress` is set to `0.0.0.0` inside the container.
 It allows a different address from the local one to be advertised to
 executors or external systems, which is necessary when running containers
