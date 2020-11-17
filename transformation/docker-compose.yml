@@ -22,7 +22,7 @@ services:
       - TAG_KEYSPACE=${TAG_KEYSPACE}
       - TGT_KEYSPACE=${TGT_KEYSPACE}
     volumes:
-      - "$SPARK_LOCAL_DIR:/var/data/spark/:rw"
+      - "$SPARK_LOCAL_DIR:/var/cache/spark/:rw"
     entrypoint: ["/opt/graphsense/docker-entrypoint.sh"]
     command: ["/opt/graphsense/submit.sh"]
 
