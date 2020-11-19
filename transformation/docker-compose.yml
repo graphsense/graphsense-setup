@@ -16,13 +16,14 @@ services:
       - SPARK_DRIVER_HOST=${SPARK_DRIVER_HOST}
       - SPARK_MASTER=${SPARK_MASTER}
       - SPARK_EXECUTOR_MEMORY=${SPARK_EXECUTOR_MEMORY}
+      - SPARK_LOCAL_DIR=${SPARK_LOCAL_DIR}
       - CASSANDRA_HOST=${CASSANDRA_HOST}
       - CURRENCY=${CURRENCY}
       - RAW_KEYSPACE=${RAW_KEYSPACE}
       - TAG_KEYSPACE=${TAG_KEYSPACE}
       - TGT_KEYSPACE=${TGT_KEYSPACE}
     volumes:
-      - "$SPARK_LOCAL_DIR:/var/cache/spark/:rw"
+      - "$SPARK_LOCAL_DIR:$SPARK_LOCAL_DIR"
     entrypoint: ["/opt/graphsense/docker-entrypoint.sh"]
     command: ["/opt/graphsense/submit.sh"]
 
