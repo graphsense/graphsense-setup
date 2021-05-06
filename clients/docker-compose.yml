@@ -58,7 +58,7 @@ services:
       - 8632:8632
     restart: always
 
-  eth-client:
+  ethereum-client:
     image: geth
     container_name: geth
     hostname: geth
