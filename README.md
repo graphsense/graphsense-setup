@@ -106,6 +106,9 @@ List all running containers:
 ------------------------------------------------------------------------------
 bitcoin        bitcoind -conf=/opt/graphs ...   Up      0.0.0.0:8332->8332/tcp
 bitcoin-cash   bitcoind -conf=/opt/graphs ...   Up      0.0.0.0:8432->8432/tcp
+geth           geth --syncmode full --rpc ...   Up      30303/tcp, 30303/udp,
+                                                        0.0.0.0:8545->8545/tcp,
+                                                        8546/tcp, 8547/tcp
 litecoin       litecoind -conf=/opt/graph ...   Up      0.0.0.0:8532->8532/tcp
 zcash          zcashd -conf=/opt/graphsen ...   Up      0.0.0.0:8632->8632/tcp
 ```
