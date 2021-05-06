@@ -11,7 +11,7 @@ of all required GraphSense components. Graphsense consists of several services.
 List of components:
 - `clients`: dockerized cryptocurrency clients for Bitcoin, Bitcoin Cash,
   Litecoin, Zcash and Ethereum (`geth`).
-- `ingest`: these services are part of the 
+- `ingest`: these services are part of the
    [graphsense-blocksci][graphsense-blocksci] project to parse and ingest
    Blockchain data and exchange rates for all supported currencies.
 - `transformation`: a Spark job that reads raw data from Cassandra and writes
@@ -175,8 +175,9 @@ for further information.
 
 ### Transformation
 
-The `transformation` directory contains a dockerized version of the Spark
-transformation pipeline ([graphsense-transformation][graphsense-transformation]).
+The `transformation` directory contains dockerized versions of the Spark
+transformation pipelines ([graphsense-transformation][graphsense-transformation]
+and [graphsense-ethereum-transformation][graphsense-eth-transformation]).
 
 The current Docker setup requires an existing, external Spark standalone cluster
 (Spark version 2.7.7 with Scala 2.12), which could also be deployed using Docker
@@ -194,11 +195,19 @@ ports used by the driver need to be forwarded from the container's host
 (`SPARK_DRIVER_PORT`,`SPARK_UI_PORT`, `SPARK_BLOCKMGR_PORT`).
 
 After finishing the Spark configuration edit the arguments section in the
-`.env` file, and build and run the container:
+`.env` file, and build and run the containers. For the transformation
+pipeline for TUXO currencies, use
 
 ```
 docker-compose build
 docker-compose run --service-ports transformation
+```
+
+and for the Ethereum transformation, use
+
+```
+docker-compose build
+docker-compose run --service-ports ethereum-transformation
 ```
 
 Note that the `--service-ports` option is required, to enable the port mapping
@@ -253,3 +262,4 @@ The dashboard is going to be accessible at `0.0.0.0:DASHBOARD_PORT`.
 [coinmarketcap]: https://coinmarketcap.com
 [graphsense-tagpack-tool]: https://github.com/graphsense/graphsense-tagpack-tool
 [graphsense-transformation]: https://github.com/graphsense/graphsense-transformation
+[graphsense-eth-transformation]: https://github.com/graphsense/graphsense-ethereum-transformation
