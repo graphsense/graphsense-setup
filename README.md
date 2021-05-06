@@ -10,7 +10,7 @@ of all required GraphSense components. Graphsense consists of several services.
 
 List of components:
 - `clients`: dockerized cryptocurrency clients for Bitcoin, Bitcoin Cash,
-  Litecoin and Zcash.
+  Litecoin, Zcash and Ethereum (`geth`).
 - `ingest`: these services are part of the 
    [graphsense-blocksci][graphsense-blocksci] project to parse and ingest
    Blockchain data and exchange rates for all supported currencies.
@@ -87,6 +87,7 @@ In the Docker Compose file, we define the following services:
 - `bitcoin-cash-client`
 - `litecoin-client`
 - `zcash-client`
+- `ethereum-client`
 
 Before starting the containers, create all directories as defined in the `.env`
 file (must be writable by UID 10000). To start all services in detached mode
