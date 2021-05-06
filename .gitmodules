@@ -26,6 +26,10 @@
 	path = transformation/graphsense-transformation
 	url = https://github.com/graphsense/graphsense-transformation
 	branch = develop
+[submodule "transformation/graphsense-ethereum-transformation"]
+	path = transformation/graphsense-ethereum-transformation
+	url = https://github.com/graphsense/graphsense-ethereum-transformation
+	branch = main
 [submodule "rest/graphsense-rest"]
 	path = rest/graphsense-rest
 	url = https://github.com/graphsense/graphsense-rest
