@@ -22,6 +22,10 @@
 	path = ingest/graphsense-blocksci
 	url = https://github.com/graphsense/graphsense-blocksci
 	branch = develop
+[submodule "ingest/graphsense-ethereum-etl"]
+	path = ingest/graphsense-ethereum-etl
+	url = https://github.com/graphsense/graphsense-ethereum-etl
+	branch = main
 [submodule "transformation/graphsense-transformation"]
 	path = transformation/graphsense-transformation
 	url = https://github.com/graphsense/graphsense-transformation
