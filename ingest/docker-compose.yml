@@ -73,7 +73,7 @@ services:
       - RAW_KEYSPACE=${BCH_RAW_KEYSPACE}
     entrypoint: ["/docker-entrypoint.sh"]
     command: ["python3", "/usr/local/bin/ingest_rates_coinmarketcap.py",
-              "-c", "BCH",
+              "--cryptocurrency", "BCH",
               "-d", "$CASSANDRA_HOST",
               "-k", "$BCH_RAW_KEYSPACE"]
 
@@ -111,7 +111,7 @@ services:
       - RAW_KEYSPACE=${LTC_RAW_KEYSPACE}
     entrypoint: ["/docker-entrypoint.sh"]
     command: ["python3", "/usr/local/bin/ingest_rates_coinmarketcap.py",
-              "-c", "LTC",
+              "--cryptocurrency", "LTC",
               "-d", "$CASSANDRA_HOST",
               "-k", "$LTC_RAW_KEYSPACE"]
 
@@ -148,7 +148,7 @@ services:
       - RAW_KEYSPACE=${ZEC_RAW_KEYSPACE}
     entrypoint: ["/docker-entrypoint.sh"]
     command: ["python3", "/usr/local/bin/ingest_rates_coinmarketcap.py",
-              "-c", "ZEC",
+              "--cryptocurrency", "ZEC",
               "-d", "$CASSANDRA_HOST",
               "-k", "$ZEC_RAW_KEYSPACE"]
 
