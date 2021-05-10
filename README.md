@@ -50,7 +50,7 @@ subdirectories. The source code of all required GraphSense components is
 included through Git submodules. To fetch the source code for all components use
 
 ```
-git clone git@github.com:graphsense/graphsense-setup.git
+git clone https://github.com/graphsense/graphsense-setup.git .
 git submodule init
 git submodule update
 ```
