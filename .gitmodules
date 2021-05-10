@@ -17,7 +17,7 @@
 [submodule "clients/eth-client"]
 	path = clients/eth-client
 	url = https://github.com/graphsense/eth-client
-	branch = main
+	branch = develop
 [submodule "ingest/graphsense-blocksci"]
 	path = ingest/graphsense-blocksci
 	url = https://github.com/graphsense/graphsense-blocksci
@@ -25,7 +25,7 @@
 [submodule "ingest/graphsense-ethereum-etl"]
 	path = ingest/graphsense-ethereum-etl
 	url = https://github.com/graphsense/graphsense-ethereum-etl
-	branch = main
+	branch = develop
 [submodule "transformation/graphsense-transformation"]
 	path = transformation/graphsense-transformation
 	url = https://github.com/graphsense/graphsense-transformation
@@ -33,7 +33,7 @@
 [submodule "transformation/graphsense-ethereum-transformation"]
 	path = transformation/graphsense-ethereum-transformation
 	url = https://github.com/graphsense/graphsense-ethereum-transformation
-	branch = main
+	branch = develop
 [submodule "rest/graphsense-rest"]
 	path = rest/graphsense-rest
 	url = https://github.com/graphsense/graphsense-rest
