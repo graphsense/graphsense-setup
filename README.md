@@ -30,7 +30,7 @@ in a sequential order.
 - [Docker][docker], see e.g. https://docs.docker.com/engine/install/
 - Docker Compose: https://docs.docker.com/compose/install/
 - a machine with at least 60GB RAM to run the `graphsense-blocksci` component
-- standalone [Apache Spark][apache-spark] cluster (version 2.7.7/Scala 2.12)
+- standalone [Apache Spark][apache-spark] cluster (version 2.4.7/Scala 2.12)
 - [Apache Cassandra][apache-cassandra] cluster
 
 All containers run with UID 10000 (user `dockeruser`). Ensure that a user
