@@ -12,8 +12,10 @@ List of components:
 - `clients`: dockerized cryptocurrency clients for Bitcoin, Bitcoin Cash,
   Litecoin, Zcash and Ethereum (`geth`).
 - `ingest`: these services are part of the
-   [graphsense-blocksci][graphsense-blocksci] project to parse and ingest
-   Blockchain data and exchange rates for all supported currencies.
+   [graphsense-blocksci][gs-blocksci] project to parse and ingest
+   Blockchain data and exchange rates for all supported UTXO currencies.
+   Ethereum support is provided by the [graphsense-ethereum-etl][gs-ethereum-etl]
+   component.
 - `transformation`: a Spark job that reads raw data from Cassandra and writes
    the computed the address and entity graphs to a transformed keyspace.
 - `rest`: a Flask REST service exposing denormalized views computed by the
@@ -165,19 +167,32 @@ docker-compose down
 
 to remove all containers and volumes.
 
+Ethereum support is provided by the `graphsense-ethereum-etl` component.
+Ingest of blocks and transactions
+
+```
+docker-compose run ingest-eth
+```
+
+Ingest of ETH exchange rates
+
+```
+docker-compose run ingest-exchange-rates-eth
+```
+
 #### GraphSense tagpacks (optional)
 
 There is currently no Docker setup for the ingest of attribution tags.
 The ingest of TagPacks to the raw Cassandra keyspace needs to be
-performed manually, see [graphsense-tagpack-tool][graphsense-tagpack-tool]
+performed manually, see [graphsense-tagpack-tool][gs-tagpack-tool]
 for further information.
 
 
 ### Transformation
 
 The `transformation` directory contains dockerized versions of the Spark
-transformation pipelines ([graphsense-transformation][graphsense-transformation]
-and [graphsense-ethereum-transformation][graphsense-eth-transformation]).
+transformation pipelines ([graphsense-transformation][gs-transformation]
+and [graphsense-ethereum-transformation][gs-eth-transformation]).
 
 The current Docker setup requires an existing, external Spark standalone cluster
 (Spark version 2.7.7 with Scala 2.12), which could also be deployed using Docker
@@ -255,11 +270,12 @@ The dashboard is going to be accessible at `0.0.0.0:DASHBOARD_PORT`.
 
 [apache-spark]: https://spark.apache.org/downloads.html
 [apache-cassandra]: http://cassandra.apache.org/download
-[graphsense-blocksci]: https://github.com/graphsense/graphsense-blocksci
+[gs-blocksci]: https://github.com/graphsense/graphsense-blocksci
+[gs-ethereum-etl]: https://github.com/graphsense/graphsense-ethereum-etl
 [docker]: https://www.docker.com
 [blocksci]: https://github.com/citp/BlockSci
 [coindesk]: https://www.coindesk.com/api
 [coinmarketcap]: https://coinmarketcap.com
-[graphsense-tagpack-tool]: https://github.com/graphsense/graphsense-tagpack-tool
-[graphsense-transformation]: https://github.com/graphsense/graphsense-transformation
-[graphsense-eth-transformation]: https://github.com/graphsense/graphsense-ethereum-transformation
+[gs-tagpack-tool]: https://github.com/graphsense/graphsense-tagpack-tool
+[gs-transformation]: https://github.com/graphsense/graphsense-transformation
+[gs-eth-transformation]: https://github.com/graphsense/graphsense-ethereum-transformation
