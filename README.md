@@ -10,10 +10,12 @@ of all required GraphSense components. Graphsense consists of several services.
 
 List of components:
 - `clients`: dockerized cryptocurrency clients for Bitcoin, Bitcoin Cash,
-  Litecoin and Zcash.
-- `ingest`: these services are part of the 
-   [graphsense-blocksci][graphsense-blocksci] project to parse and ingest
-   Blockchain data and exchange rates for all supported currencies.
+  Litecoin, Zcash and Ethereum (`geth`).
+- `ingest`: these services are part of the
+   [graphsense-blocksci][gs-blocksci] project to parse and ingest
+   Blockchain data and exchange rates for all supported UTXO currencies.
+   Ethereum support is provided by the [graphsense-ethereum-etl][gs-ethereum-etl]
+   component.
 - `transformation`: a Spark job that reads raw data from Cassandra and writes
    the computed the address and entity graphs to a transformed keyspace.
 - `rest`: a Flask REST service exposing denormalized views computed by the
@@ -30,7 +32,7 @@ in a sequential order.
 - [Docker][docker], see e.g. https://docs.docker.com/engine/install/
 - Docker Compose: https://docs.docker.com/compose/install/
 - a machine with at least 60GB RAM to run the `graphsense-blocksci` component
-- standalone [Apache Spark][apache-spark] cluster (version 2.7.7/Scala 2.12)
+- standalone [Apache Spark][apache-spark] cluster (version 2.4.7/Scala 2.12)
 - [Apache Cassandra][apache-cassandra] cluster
 
 All containers run with UID 10000 (user `dockeruser`). Ensure that a user
@@ -50,7 +52,7 @@ subdirectories. The source code of all required GraphSense components is
 included through Git submodules. To fetch the source code for all components use
 
 ```
-git clone git@github.com:graphsense/graphsense-setup.git
+git clone https://github.com/graphsense/graphsense-setup.git .
 git submodule init
 git submodule update
 ```
@@ -87,6 +89,7 @@ In the Docker Compose file, we define the following services:
 - `bitcoin-cash-client`
 - `litecoin-client`
 - `zcash-client`
+- `ethereum-client`
 
 Before starting the containers, create all directories as defined in the `.env`
 file (must be writable by UID 10000). To start all services in detached mode
@@ -105,6 +108,9 @@ List all running containers:
 ------------------------------------------------------------------------------
 bitcoin        bitcoind -conf=/opt/graphs ...   Up      0.0.0.0:8332->8332/tcp
 bitcoin-cash   bitcoind -conf=/opt/graphs ...   Up      0.0.0.0:8432->8432/tcp
+geth           geth --syncmode full --rpc ...   Up      30303/tcp, 30303/udp,
+                                                        0.0.0.0:8545->8545/tcp,
+                                                        8546/tcp, 8547/tcp
 litecoin       litecoind -conf=/opt/graph ...   Up      0.0.0.0:8532->8532/tcp
 zcash          zcashd -conf=/opt/graphsen ...   Up      0.0.0.0:8632->8632/tcp
 ```
@@ -161,18 +167,32 @@ docker-compose down
 
 to remove all containers and volumes.
 
+Ethereum support is provided by the `graphsense-ethereum-etl` component.
+Ingest of blocks and transactions
+
+```
+docker-compose run ingest-eth
+```
+
+Ingest of ETH exchange rates
+
+```
+docker-compose run ingest-exchange-rates-eth
+```
+
 #### GraphSense tagpacks (optional)
 
 There is currently no Docker setup for the ingest of attribution tags.
 The ingest of TagPacks to the raw Cassandra keyspace needs to be
-performed manually, see [graphsense-tagpack-tool][graphsense-tagpack-tool]
+performed manually, see [graphsense-tagpack-tool][gs-tagpack-tool]
 for further information.
 
 
 ### Transformation
 
-The `transformation` directory contains a dockerized version of the Spark
-transformation pipeline ([graphsense-transformation][graphsense-transformation]).
+The `transformation` directory contains dockerized versions of the Spark
+transformation pipelines ([graphsense-transformation][gs-transformation]
+and [graphsense-ethereum-transformation][gs-eth-transformation]).
 
 The current Docker setup requires an existing, external Spark standalone cluster
 (Spark version 2.7.7 with Scala 2.12), which could also be deployed using Docker
@@ -190,11 +210,19 @@ ports used by the driver need to be forwarded from the container's host
 (`SPARK_DRIVER_PORT`,`SPARK_UI_PORT`, `SPARK_BLOCKMGR_PORT`).
 
 After finishing the Spark configuration edit the arguments section in the
-`.env` file, and build and run the container:
+`.env` file, and build and run the containers. For the transformation
+pipeline for TUXO currencies, use
 
 ```
 docker-compose build
 docker-compose run --service-ports transformation
+```
+
+and for the Ethereum transformation, use
+
+```
+docker-compose build
+docker-compose run --service-ports ethereum-transformation
 ```
 
 Note that the `--service-ports` option is required, to enable the port mapping
@@ -242,10 +270,12 @@ The dashboard is going to be accessible at `0.0.0.0:DASHBOARD_PORT`.
 
 [apache-spark]: https://spark.apache.org/downloads.html
 [apache-cassandra]: http://cassandra.apache.org/download
-[graphsense-blocksci]: https://github.com/graphsense/graphsense-blocksci
+[gs-blocksci]: https://github.com/graphsense/graphsense-blocksci
+[gs-ethereum-etl]: https://github.com/graphsense/graphsense-ethereum-etl
 [docker]: https://www.docker.com
 [blocksci]: https://github.com/citp/BlockSci
 [coindesk]: https://www.coindesk.com/api
 [coinmarketcap]: https://coinmarketcap.com
-[graphsense-tagpack-tool]: https://github.com/graphsense/graphsense-tagpack-tool
-[graphsense-transformation]: https://github.com/graphsense/graphsense-transformation
+[gs-tagpack-tool]: https://github.com/graphsense/graphsense-tagpack-tool
+[gs-transformation]: https://github.com/graphsense/graphsense-transformation
+[gs-eth-transformation]: https://github.com/graphsense/graphsense-ethereum-transformation

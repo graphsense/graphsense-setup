@@ -27,6 +27,29 @@ services:
     entrypoint: ["/opt/graphsense/docker-entrypoint.sh"]
     command: ["/opt/graphsense/submit.sh"]
 
+  ethereum-transformation:
+    build:
+      context: graphsense-ethereum-transformation
+    ports:
+      - "$SPARK_DRIVER_HOST:$SPARK_UI_PORT:$SPARK_UI_PORT"
+      - "$SPARK_DRIVER_HOST:$SPARK_DRIVER_PORT:$SPARK_DRIVER_PORT"
+      - "$SPARK_DRIVER_HOST:$SPARK_BLOCKMGR_PORT:$SPARK_BLOCKMGR_PORT"
+    environment:
+      - SPARK_UI_PORT=${SPARK_UI_PORT}
+      - SPARK_DRIVER_PORT=${SPARK_DRIVER_PORT}
+      - SPARK_BLOCKMGR_PORT=${SPARK_BLOCKMGR_PORT}
+      - SPARK_DRIVER_HOST=${SPARK_DRIVER_HOST}
+      - SPARK_MASTER=${SPARK_MASTER}
+      - SPARK_EXECUTOR_MEMORY=${SPARK_EXECUTOR_MEMORY}
+      - SPARK_LOCAL_DIR=${SPARK_LOCAL_DIR}
+      - CASSANDRA_HOST=${CASSANDRA_HOST}
+      - RAW_KEYSPACE=${RAW_KEYSPACE}
+      - TAG_KEYSPACE=${TAG_KEYSPACE}
+      - TGT_KEYSPACE=${TGT_KEYSPACE}
+    volumes:
+      - "$SPARK_LOCAL_DIR:$SPARK_LOCAL_DIR"
+    entrypoint: ["/opt/graphsense/docker-entrypoint.sh"]
+    command: ["/opt/graphsense/submit.sh"]
 
 networks:
   default:

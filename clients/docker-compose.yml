@@ -58,6 +58,21 @@ services:
       - 8632:8632
     restart: always
 
+  ethereum-client:
+    image: geth
+    container_name: geth
+    hostname: geth
+    build:
+      context: eth-client
+    volumes:
+      - ${ETH_BLOCK_DATADIR}:/home/dockeruser/.ethereum
+    networks:
+      - graphsense-net
+    ports:
+      - 8545:8545
+    restart: always
+
+
 networks:
   graphsense-net:
     name: graphsense-global-net

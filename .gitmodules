@@ -14,13 +14,25 @@
 	path = clients/btc-client
 	url = https://github.com/graphsense/btc-client
 	branch = master
+[submodule "clients/eth-client"]
+	path = clients/eth-client
+	url = https://github.com/graphsense/eth-client
+	branch = master
 [submodule "ingest/graphsense-blocksci"]
 	path = ingest/graphsense-blocksci
 	url = https://github.com/graphsense/graphsense-blocksci
 	branch = master
+[submodule "ingest/graphsense-ethereum-etl"]
+	path = ingest/graphsense-ethereum-etl
+	url = https://github.com/graphsense/graphsense-ethereum-etl
+	branch = master
 [submodule "transformation/graphsense-transformation"]
 	path = transformation/graphsense-transformation
 	url = https://github.com/graphsense/graphsense-transformation
+	branch = master
+[submodule "transformation/graphsense-ethereum-transformation"]
+	path = transformation/graphsense-ethereum-transformation
+	url = https://github.com/graphsense/graphsense-ethereum-transformation
 	branch = master
 [submodule "rest/graphsense-rest"]
 	path = rest/graphsense-rest
