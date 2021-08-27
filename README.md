@@ -32,7 +32,7 @@ in a sequential order.
 - [Docker][docker], see e.g. https://docs.docker.com/engine/install/
 - Docker Compose: https://docs.docker.com/compose/install/
 - a machine with at least 60GB RAM to run the `graphsense-blocksci` component
-- standalone [Apache Spark][apache-spark] cluster (version 2.4.7/Scala 2.12)
+- standalone [Apache Spark][apache-spark] cluster (version 3.1.2/Scala 2.12)
 - [Apache Cassandra][apache-cassandra] cluster
 
 All containers run with UID 10000 (user `dockeruser`). Ensure that a user
@@ -195,7 +195,7 @@ transformation pipelines ([graphsense-transformation][gs-transformation]
 and [graphsense-ethereum-transformation][gs-eth-transformation]).
 
 The current Docker setup requires an existing, external Spark standalone cluster
-(Spark version 2.7.7 with Scala 2.12), which could also be deployed using Docker
+(Spark version 3.1.2), which could also be deployed using Docker
 (as [Docker Swarm](https://docs.docker.com/get-started/swarm-deploy/)).
 The environment variable `SPARK_DRIVER_HOST` specifies the network address of
 the host machine where the container will be running. Spark cluster nodes should
