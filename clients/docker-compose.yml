@@ -10,6 +10,7 @@ services:
       context: btc-client
     volumes:
       - ${BTC_BLOCK_DATADIR}:/opt/graphsense/data
+      - ./btc-client/docker/client.conf:/opt/graphsense/client.conf
     networks:
       - graphsense-net
     ports:
@@ -24,6 +25,7 @@ services:
       context: bch-client
     volumes:
       - ${BCH_BLOCK_DATADIR}:/opt/graphsense/data
+      - ./bch-client/docker/client.conf:/opt/graphsense/client.conf
     networks:
       - graphsense-net
     ports:
@@ -38,6 +40,7 @@ services:
       context: ltc-client
     volumes:
       - ${LTC_BLOCK_DATADIR}:/opt/graphsense/data
+      - ./ltc-client/docker/client.conf:/opt/graphsense/client.conf
     networks:
       - graphsense-net
     ports:
@@ -52,6 +55,7 @@ services:
       context: zec-client
     volumes:
       - ${ZEC_BLOCK_DATADIR}:/opt/graphsense/data
+      - ./zec-client/docker/client.conf:/opt/graphsense/client.conf
     networks:
       - graphsense-net
     ports:
