@@ -156,8 +156,12 @@ docker-compose run ingest-btc
 docker-compose run ingest-exchange-rates-btc
 ```
 
-To parse the Bitcoin blockchain, BlockSci requires at least 60GB of RAM
-(as of July 2020).
+To parse the Bitcoin blockchain, BlockSci requires at least 60GB of RAM.
+As of November 2020, BlockSci is no longer actively being under development,
+which means that the BTC Taproot upgrade (BTC block 709,632, 2021-11-14)
+is not supported. To ingest recent BTC transactions, please use the
+[bitcoin-etl][bitcoin-etl] based ingest script
+(see [graphsense-bitcoin-etl][graphsense-bitcoin-etl]).
 
 After successful parsing and ingest, execute
 
@@ -274,6 +278,8 @@ The dashboard is going to be accessible at `0.0.0.0:DASHBOARD_PORT`.
 [gs-ethereum-etl]: https://github.com/graphsense/graphsense-ethereum-etl
 [docker]: https://www.docker.com
 [blocksci]: https://github.com/citp/BlockSci
+[bitcoin-etl]: https://github.com/blockchain-etl/bitcoin-etl
+[graphsense-bitcoin-etl]: https://github.com/graphsense/graphsense-bitcoin-etl
 [coindesk]: https://www.coindesk.com/api
 [coinmarketcap]: https://coinmarketcap.com
 [gs-tagpack-tool]: https://github.com/graphsense/graphsense-tagpack-tool
