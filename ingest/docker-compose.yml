@@ -162,7 +162,7 @@ services:
       - PROVIDER_URI=${GETH_IPC}
     volumes:
       - "${ETH_DSBULK_LOG_DIR}:/home/dockeruser/logs/"
-      - "${GETH_IPC}:/opt/geth/geth.ipc:ro"
+      - "${ETH_IPC}:/var/run/jsonrpc.ipc:ro"
     entrypoint: ["/entrypoint.sh"]
     command: ["/usr/local/bin/ingest.sh"]
 

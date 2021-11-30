@@ -32,7 +32,7 @@ in a sequential order.
 - [Docker][docker], see e.g. https://docs.docker.com/engine/install/
 - Docker Compose: https://docs.docker.com/compose/install/
 - a machine with at least 60GB RAM to run the `graphsense-blocksci` component
-- standalone [Apache Spark][apache-spark] cluster (version 2.4.7/Scala 2.12)
+- standalone [Apache Spark][apache-spark] cluster (version 3.1.2/Scala 2.12)
 - [Apache Cassandra][apache-cassandra] cluster
 
 All containers run with UID 10000 (user `dockeruser`). Ensure that a user
@@ -156,8 +156,12 @@ docker-compose run ingest-btc
 docker-compose run ingest-exchange-rates-btc
 ```
 
-To parse the Bitcoin blockchain, BlockSci requires at least 60GB of RAM
-(as of July 2020).
+To parse the Bitcoin blockchain, BlockSci requires at least 60GB of RAM.
+As of November 2020, BlockSci is no longer actively being under development,
+which means that the BTC Taproot upgrade (BTC block 709,632, 2021-11-14)
+is not supported. To ingest recent BTC transactions, please use the
+[bitcoin-etl][bitcoin-etl] based ingest script
+(see [graphsense-bitcoin-etl][graphsense-bitcoin-etl]).
 
 After successful parsing and ingest, execute
 
@@ -195,7 +199,7 @@ transformation pipelines ([graphsense-transformation][gs-transformation]
 and [graphsense-ethereum-transformation][gs-eth-transformation]).
 
 The current Docker setup requires an existing, external Spark standalone cluster
-(Spark version 2.7.7 with Scala 2.12), which could also be deployed using Docker
+(Spark version 3.1.2), which could also be deployed using Docker
 (as [Docker Swarm](https://docs.docker.com/get-started/swarm-deploy/)).
 The environment variable `SPARK_DRIVER_HOST` specifies the network address of
 the host machine where the container will be running. Spark cluster nodes should
@@ -274,6 +278,8 @@ The dashboard is going to be accessible at `0.0.0.0:DASHBOARD_PORT`.
 [gs-ethereum-etl]: https://github.com/graphsense/graphsense-ethereum-etl
 [docker]: https://www.docker.com
 [blocksci]: https://github.com/citp/BlockSci
+[bitcoin-etl]: https://github.com/blockchain-etl/bitcoin-etl
+[graphsense-bitcoin-etl]: https://github.com/graphsense/graphsense-bitcoin-etl
 [coindesk]: https://www.coindesk.com/api
 [coinmarketcap]: https://coinmarketcap.com
 [gs-tagpack-tool]: https://github.com/graphsense/graphsense-tagpack-tool
