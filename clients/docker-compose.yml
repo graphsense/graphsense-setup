@@ -63,13 +63,14 @@ services:
     restart: always
 
   ethereum-client:
-    image: geth
-    container_name: geth
-    hostname: geth
+    image: openethereum
+    container_name: openethereum
+    hostname: openethereum
     build:
       context: eth-client
     volumes:
-      - ${ETH_BLOCK_DATADIR}:/home/dockeruser/.ethereum
+      - ${ETH_BLOCK_DATADIR}:/home/dockeruser/openethereum
+      - ./eth-client/config.toml:/home/dockeruser/.local/share/io.parity.ethereum/config.toml
     networks:
       - graphsense-net
     ports:
