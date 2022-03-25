@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.5.2] - 2022-03-25
+
 ## [0.5.1] - 2021-11-30
 ### Added
 - bitcoin-etl based ingest to support BTC Taproot upgrade (graphsense/graphsense-bitcoin-etl)
